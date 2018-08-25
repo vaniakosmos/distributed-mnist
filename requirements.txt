@@ -1,0 +1,4 @@
+grpcio
+tensorflow
+grpcio-tools
+googleapis-common-protos
