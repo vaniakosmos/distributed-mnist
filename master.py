@@ -51,5 +51,8 @@ def main():
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(
+        format='%(levelname)s %(name)-10s %(lineno)3d >  %(message)s',
+        level=logging.INFO
+    )
     main()

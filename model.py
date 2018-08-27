@@ -53,11 +53,11 @@ class Net(object):
             tf.assign(var, tensor)
 
     def weights_iter(self):
-        logger.debug(tf.trainable_variables())
-        ops = [n.name for n in self.session.graph.as_graph_def().node if "Variable" in n.op]
-        for op_name in ops:
-            var_name = op_name + ':0'  # todo: get list of tensors instead of patching op with :X
-            data: np.ndarray = self.session.run(var_name)
-            dtype = data.dtype.name
-            logger.debug('weight iter %s', var_name)
-            yield var_name, dtype, data.tobytes()
+        ops = [op for op in self.session.graph.get_operations() if "Variable" in op.type]
+        for op in ops:
+            for tensor in op.values():
+                tensor_name = tensor.name
+                data: np.ndarray = self.session.run(tensor_name)
+                dtype = data.dtype.name
+                logger.debug('weight iter %s', tensor_name)
+                yield tensor_name, dtype, data.tobytes()
