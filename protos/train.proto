@@ -7,4 +7,5 @@ service Trainer {
 message Tensor {
   bytes data = 1;
   string name = 2;
+  string dtype = 3;
 }

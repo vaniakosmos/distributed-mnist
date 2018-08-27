@@ -12,9 +12,9 @@ logger = logging.getLogger(__name__)
 
 
 def generate_tensors(net: Net):
-    for name, data in net.weights_iter():
-        tensor = train_pb2.Tensor(name=name, data=data)
-        logger.debug('get tensor: %s', name)
+    for name, dtype, data in net.weights_iter():
+        tensor = train_pb2.Tensor(name=name, data=data, dtype=dtype)
+        logger.debug('get tensor: %s (%s)', name, dtype)
         yield tensor
 
 
@@ -28,7 +28,8 @@ def train(net: Net, stubs: List[train_pb2_grpc.TrainerStub]):
     for tensors in zip(*new_tensors):
         logger.debug([t.name for t in tensors])
         name = tensors[0].name
-        net.set_weights(name, [t.data for t in tensors])
+        dtype = tensors[0].dtype
+        net.set_weights(name, dtype, [t.data for t in tensors])
 
 
 def main():

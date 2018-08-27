@@ -36,14 +36,14 @@ class Net(object):
     def close(self):
         self.session.close()
 
-    def set_weights(self, name, data):
+    def set_weights(self, name, dtype, data):
         logger.debug('set_weights: %s', name)
         var = self.session.graph.get_tensor_by_name(name)
 
         if not isinstance(data, (list, tuple)):
             data = [data]
 
-        data = [np.frombuffer(d, np.float32) for d in data]  # todo: read type from rpc tensor
+        data = [np.frombuffer(d, dtype) for d in data]
         arr = reduce(lambda a, b: a + b, data)
         if len(data) > 1:
             arr = arr / len(data)
@@ -58,5 +58,6 @@ class Net(object):
         for op_name in ops:
             var_name = op_name + ':0'  # todo: get list of tensors instead of patching op with :X
             data: np.ndarray = self.session.run(var_name)
+            dtype = data.dtype.name
             logger.debug('weight iter %s', var_name)
-            yield var_name, data.tobytes()
+            yield var_name, dtype, data.tobytes()

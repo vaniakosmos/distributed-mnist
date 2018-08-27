@@ -23,7 +23,7 @@ class Server(train_pb2_grpc.TrainerServicer):
         logger.debug('inside ::Train')
         for tensor in request_iterator:
             logging.debug(tensor.name)
-            self.net.set_weights(tensor.name, tensor.data)
+            self.net.set_weights(tensor.name, tensor.dtype, tensor.data)
 
         loss = 'undefined'
         for i in range(self.epoch_steps):
@@ -31,9 +31,9 @@ class Server(train_pb2_grpc.TrainerServicer):
             loss = self.net.train()
         logger.info('loss: %s', loss)
 
-        for (name, data) in self.net.weights_iter():
+        for name, dtype, data in self.net.weights_iter():
             logger.debug('sending back: %s', name)
-            tensor = train_pb2.Tensor(name=name, data=data)
+            tensor = train_pb2.Tensor(name=name, data=data, dtype=dtype)
             yield tensor
 
 

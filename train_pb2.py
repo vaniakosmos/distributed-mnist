@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='train.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n\x0btrain.proto\"$\n\x06Tensor\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\x12\x0c\n\x04name\x18\x02 \x01(\t2*\n\x07Trainer\x12\x1f\n\x05Train\x12\x07.Tensor\x1a\x07.Tensor\"\x00(\x01\x30\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x0btrain.proto\"3\n\x06Tensor\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\r\n\x05\x64type\x18\x03 \x01(\t2*\n\x07Trainer\x12\x1f\n\x05Train\x12\x07.Tensor\x1a\x07.Tensor\"\x00(\x01\x30\x01\x62\x06proto3')
 )
 
 
@@ -46,6 +46,13 @@ _TENSOR = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='dtype', full_name='Tensor.dtype', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -59,7 +66,7 @@ _TENSOR = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=15,
-  serialized_end=51,
+  serialized_end=66,
 )
 
 DESCRIPTOR.message_types_by_name['Tensor'] = _TENSOR
@@ -80,8 +87,8 @@ _TRAINER = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=53,
-  serialized_end=95,
+  serialized_start=68,
+  serialized_end=110,
   methods=[
   _descriptor.MethodDescriptor(
     name='Train',
